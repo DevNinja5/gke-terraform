@@ -1,11 +1,15 @@
-# Leaderboard-GKE-QA ![Terraform](https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg) ![GCP](https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg) ![kubernetes](https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg)
+# Kubernetes Engine ![Terraform](https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg) ![GCP](https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg) ![kubernetes](https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg)
 
 Terraform script to provision GKE (Gcloud Kubernetes Engine). 
 
-## Prerequisites
+## Table of content
 
-<details><summary></summary>
-</details>
+* [Prerequisites](#Prerequisites)
+* [Description](#Description)
+* [Setup Credentials](#Setup-Credentials)
+* [Script Usage](#usage)
+
+## Prerequisites
 
 * GCP Account
 * Project ID
@@ -107,9 +111,15 @@ output "cluster_name" {
 </details>
 
 ---
-## Credentials
+## Setup Credentials
 
-1. **Grant permissions to service account _(Skip if already did)_**
+1. **Create a service account**
+
+```bash
+gcloud iam service-accounts create gke-svc-acc
+```
+
+2. **Grant permissions to service account _(Skip if already did)_**
 
 ```bash
 gcloud projects add-iam-policy-binding core-phoenix-330516 --member="serviceAccount:NAME@core-phoenix-330516.iam.gserviceaccount.com" --role="roles/owner"
@@ -118,14 +128,14 @@ gcloud projects add-iam-policy-binding core-phoenix-330516 --member="serviceAcco
 
 <br>
 
-2. **Generate the key file for credentials**
+3. **Generate the key file for credentials**
 
 ```bash
-gcloud iam service-accounts keys create knolgcp.json --iam-account=NAME@core-phoenix-330516.iam.gserviceaccount.com
+gcloud iam service-accounts keys create gcp.json --iam-account=NAME@core-phoenix-330516.iam.gserviceaccount.com
 ```
 > Change NAME from name of service account
 
-This will create the credential key `knolgcp.json` in current working directory
+This will create the credential key `gcp.json` in current working directory
 
 3. **To use these credentials export the key**
 
@@ -137,6 +147,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/key.json"
 1. Initiallize terraform to install provider plugins and configure backend
 
 ```bash
+cd gke-terraform
 terraform init
 ```
 
@@ -150,9 +161,3 @@ terraform plan -out gke.tfplan
 ```bash
 terrafrom apply gke.tfplan
 ```
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
