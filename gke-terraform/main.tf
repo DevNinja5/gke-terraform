@@ -10,11 +10,6 @@ module "gke_auth" {
   cluster_name = module.gke.name
 }
 
-# resource "google_service_account" "service_account" {
-#   account_id   = var.service-account-id
-#   display_name = "Service Account"
-# }
-
 resource "local_file" "kubeconfig" {
   content  = module.gke_auth.kubeconfig_raw
   filename = "kubeconfig-${var.env_name}"
@@ -64,10 +59,10 @@ module "gke" {
       min_count      = var.minnode
       max_count      = var.maxnode
       disk_size_gb   = var.disksize
-      autoscaling    = false #as it is false in previous cluster
-      preemptible               = false
-      auto_repair               = false
-      auto_upgrade              = true
+      autoscaling    = false
+      preemptible    = false
+      auto_repair    = false
+      auto_upgrade   = true
     },
   ]
 }
